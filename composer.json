@@ -2,6 +2,7 @@
     "name": "red-fern/laravel-array-query-builder",
     "description": "Query an eloquent model using arrays",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Adam Wilson",
