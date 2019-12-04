@@ -23,7 +23,7 @@ $queryArray = [
 
 $users = User::arrayWheres($queryArray)->get();
 ```
-The **condition** describes how the coinciding rules are applied. In this case the **name** and **age** fields will be wrapped in an **AND** query.
+The **condition** describes how the coinciding rules are applied. In this case the **name** and **age** fields will be wrapped in an **OR** query.
 
 The above section would generate the following eloquent query builder:
 ```
