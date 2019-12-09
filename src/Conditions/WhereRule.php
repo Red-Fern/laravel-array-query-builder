@@ -52,7 +52,7 @@ class WhereRule
         'not in',
         'contains',
         'has',
-        'doesnt have'
+        'doesnt have',
     ];
 
     /**
@@ -130,7 +130,7 @@ class WhereRule
     }
 
     /**
-     * Set the operator
+     * Set the operator.
      *
      * @return mixed|string
      * @throws InvalidOperatorException
@@ -141,7 +141,7 @@ class WhereRule
             $value = $this->aliases[$value];
         }
 
-        if (!$this->validOperator($value)) {
+        if (! $this->validOperator($value)) {
             throw new InvalidOperatorException("The operator \"{$value}\" is not valid");
         }
 
@@ -149,7 +149,7 @@ class WhereRule
     }
 
     /**
-     * Check if operator is in whitelisted acceptedOperators
+     * Check if operator is in whitelisted acceptedOperators.
      *
      * @param $operator
      * @return bool
@@ -172,6 +172,7 @@ class WhereRule
         $method = $this->getMutatorMethod($key);
         if (method_exists($this, $method)) {
             $this->attributes[$key] = $this->$method($value);
+
             return $this;
         }
 
@@ -189,7 +190,7 @@ class WhereRule
     }
 
     /**
-     * Get a custom mutator method name
+     * Get a custom mutator method name.
      *
      * @param $key
      * @return string

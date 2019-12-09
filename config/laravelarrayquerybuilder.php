@@ -1,7 +1,7 @@
 <?php
 
 return [
-    /**
+    /*
      * Define list of aliases for query builder operators
      * e.g. gte => '>='
      *
@@ -13,6 +13,6 @@ return [
         'greaterthan' => '>',
         'greaterthanorequal' => '>=',
         'lessthan' => '<',
-        'lessthanorequal' => '<='
-    ]
+        'lessthanorequal' => '<=',
+    ],
 ];
