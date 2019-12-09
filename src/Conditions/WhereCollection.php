@@ -33,7 +33,7 @@ class WhereCollection extends Collection
             return "condition-{$index}";
         }
 
-        if (!isset($item['field'])) {
+        if (! isset($item['field'])) {
             return false;
         }
 
@@ -61,7 +61,7 @@ class WhereCollection extends Collection
             });
 
             return isset($rules['rules']) && collect($rules['rules'])->filter(function ($item) {
-                return !isset($item['rules']) && !Str::contains($item['field'], '.');
+                return ! isset($item['rules']) && ! Str::contains($item['field'], '.');
             })->isEmpty();
         });
     }
