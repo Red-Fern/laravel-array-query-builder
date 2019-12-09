@@ -2,8 +2,8 @@
 
 namespace RedFern\ArrayQueryBuilder\Tests\Unit;
 
-use RedFern\ArrayQueryBuilder\Tests\TestCase;
 use RedFern\ArrayQueryBuilder\Conditions\WhereCollection;
+use RedFern\ArrayQueryBuilder\Tests\TestCase;
 
 class WhereCollectionTest extends TestCase
 {
@@ -12,10 +12,10 @@ class WhereCollectionTest extends TestCase
     {
         $rules = [
             [
-                "field" => "age",
-                "operator" => ">",
-                "value" => 25
-            ]
+                'field'    => 'age',
+                'operator' => '>',
+                'value'    => 25,
+            ],
         ];
 
         $collection = new WhereCollection($rules);
@@ -28,10 +28,10 @@ class WhereCollectionTest extends TestCase
     {
         $rules = [
             [
-                "field" => "orders.order_date",
-                "operator" => ">",
-                "value" => '2010-01-01'
-            ]
+                'field'    => 'orders.order_date',
+                'operator' => '>',
+                'value'    => '2010-01-01',
+            ],
         ];
 
         $collection = new WhereCollection($rules);
@@ -45,19 +45,19 @@ class WhereCollectionTest extends TestCase
         $rules = [
             [
                 'condition' => 'and',
-                'rules' => [
+                'rules'     => [
                     [
-                        'field' => 'orders.start_date',
+                        'field'    => 'orders.start_date',
                         'operator' => '>',
-                        'value' => '2010-01-01 00:00:00'
+                        'value'    => '2010-01-01 00:00:00',
                     ],
                     [
-                        'field' => 'orders.start_date',
+                        'field'    => 'orders.start_date',
                         'operator' => '<',
-                        'value' => '2015-01-01 00:00:00'
-                    ]
-                ]
-            ]
+                        'value'    => '2015-01-01 00:00:00',
+                    ],
+                ],
+            ],
         ];
 
         $collection = new WhereCollection($rules);
@@ -71,24 +71,24 @@ class WhereCollectionTest extends TestCase
         $rules = [
             [
                 'condition' => 'and',
-                'rules' => [
+                'rules'     => [
                     [
-                        'field' => 'orders.start_date',
+                        'field'    => 'orders.start_date',
                         'operator' => '>',
-                        'value' => '2010-01-01 00:00:00'
+                        'value'    => '2010-01-01 00:00:00',
                     ],
                     [
-                        'field' => 'orders.start_date',
+                        'field'    => 'orders.start_date',
                         'operator' => '<',
-                        'value' => '2015-01-01 00:00:00'
+                        'value'    => '2015-01-01 00:00:00',
                     ],
                     [
-                        'field' => 'age',
+                        'field'    => 'age',
                         'operator' => '>',
-                        'value' => 25
-                    ]
-                ]
-            ]
+                        'value'    => 25,
+                    ],
+                ],
+            ],
         ];
 
         $collection = new WhereCollection($rules);

@@ -2,24 +2,24 @@
 
 namespace RedFern\ArrayQueryBuilder\Tests;
 
-use Orchestra\Testbench\TestCase as TestbenchTestCase;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Database\Query\Processors\Processor;
+use Orchestra\Testbench\TestCase as TestbenchTestCase;
 use RedFern\ArrayQueryBuilder\Tests\Models\TestModel;
 
 class TestCase extends TestbenchTestCase
 {
-       /**
-     * Mock a query builder instance
+    /**
+     * Mock a query builder instance.
      *
      * @return QueryBuilder
      */
     protected function getQueryBuilder()
     {
-        $grammar = new Grammar;
+        $grammar = new Grammar();
         $processor = \Mockery::mock(Processor::class);
 
         $connection = \Mockery::mock(ConnectionInterface::class);
@@ -28,7 +28,7 @@ class TestCase extends TestbenchTestCase
     }
 
     /**
-     * Get an eloquent builder
+     * Get an eloquent builder.
      *
      * @return EloquentBuilder
      */
@@ -52,6 +52,7 @@ class TestCase extends TestbenchTestCase
 
     /**
      * @param EloquentBuilder|QueryBuilder $query
+     *
      * @return array
      */
     protected function toQueryComponentsArray($query)
@@ -70,6 +71,7 @@ class TestCase extends TestbenchTestCase
                 $rawQueryComponents[$component] = $query->$component;
             }
         }
+
         return json_decode(json_encode($rawQueryComponents), true);
     }
 }

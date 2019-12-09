@@ -12,19 +12,19 @@ class RelationGroupTest extends TestCase
     {
         $rules = [
             [
-                'field' => 'orders.order_date',
+                'field'    => 'orders.order_date',
                 'operator' => '>',
-                'value' => '2010-01-01 00:00:00'
+                'value'    => '2010-01-01 00:00:00',
             ],
             [
-                'field' => 'orders.order_date',
+                'field'    => 'orders.order_date',
                 'operator' => '<',
-                'value' => '2010-12-31 23:59:59',
-            ]
+                'value'    => '2010-12-31 23:59:59',
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
-            ->whereHas('orders', function($q){
+            ->whereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2010-01-01 00:00:00')
                     ->where('order_date', '<', '2010-12-31 23:59:59');
             });

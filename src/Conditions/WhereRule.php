@@ -32,7 +32,7 @@ class WhereRule
      * @param $builder
      * @param $rule
      * @param string $condition
-     * @param int $index
+     * @param int    $index
      */
     public function __construct($builder, $rule, $condition = 'and', $index = 0)
     {
@@ -44,19 +44,19 @@ class WhereRule
     }
 
     /**
-     * Fill the rule attributes
+     * Fill the rule attributes.
      *
      * @param $rule
      */
     protected function fill($rule)
     {
-        foreach($rule as $key => $value) {
+        foreach ($rule as $key => $value) {
             $this->setAttribute($key, $value);
         }
     }
 
     /**
-     * Apply the query builder changes
+     * Apply the query builder changes.
      */
     public function apply()
     {
@@ -100,7 +100,7 @@ class WhereRule
     }
 
     /**
-     * Set an attribute
+     * Set an attribute.
      *
      * @param $key
      * @param $value
@@ -111,7 +111,7 @@ class WhereRule
     }
 
     /**
-     * Get all attributes
+     * Get all attributes.
      *
      * @return array
      */
@@ -121,10 +121,11 @@ class WhereRule
     }
 
     /**
-     * Get an attribute
+     * Get an attribute.
      *
      * @param $name
      * @param string $default
+     *
      * @return mixed|string
      */
     public function getAttribute($name, $default = '')
@@ -137,9 +138,10 @@ class WhereRule
     }
 
     /**
-     * Get an attribute
+     * Get an attribute.
      *
      * @param $key
+     *
      * @return mixed|string
      */
     public function __get($key)
@@ -148,7 +150,7 @@ class WhereRule
     }
 
     /**
-     * Set an attribute value
+     * Set an attribute value.
      *
      * @param $key
      * @param $value

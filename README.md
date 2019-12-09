@@ -1,6 +1,7 @@
 # Laravel Array Query Builder
 
 ![](https://github.com/Red-Fern/laravel-array-query-builder/workflows/Run%20PHP%20Tests/badge.svg)
+[![StyleCI](https://styleci.io/repos/225727963/shield)](https://styleci.io/repos/225727963)
 
 This package allows you to add where clauses to eloquent query builders using multidimensional arrays. By following a simple structure, you can chain multiple query conditions, nested conditions and relational queries. 
 
