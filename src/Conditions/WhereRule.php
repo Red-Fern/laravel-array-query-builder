@@ -27,6 +27,11 @@ class WhereRule
     protected $index;
 
     /**
+     * @var \Illuminate\Config\Repository
+     */
+    protected $aliases = [];
+
+    /**
      * QueryRule constructor.
      *
      * @param $builder
@@ -39,6 +44,7 @@ class WhereRule
         $this->builder = $builder;
         $this->condition = $condition;
         $this->index = $index;
+        $this->aliases = config('laravelarrayquerybuilder.operator_aliases', []);
 
         $this->fill($rule);
     }
@@ -61,42 +67,57 @@ class WhereRule
     public function apply()
     {
         $condition = ($this->index) ? $this->condition : 'and';
+        $operator = $this->getOperator();
 
         // Null value check
-        if ($this->operator == 'null') {
+        if ($operator == 'null') {
             return $this->builder->whereNull($this->field, $condition);
         }
 
         // Add not null check
-        if ($this->operator == 'not null') {
+        if ($operator == 'not null') {
             return $this->builder->whereNotNull($this->field, $condition);
         }
 
-        if ($this->operator == 'between') {
+        if ($operator == 'between') {
             return $this->builder->whereBetween($this->field, $this->value, $condition);
         }
 
-        if ($this->operator == 'in') {
+        if ($operator == 'in') {
             return $this->builder->whereIn($this->field, $this->value, $condition);
         }
 
-        if ($this->operator == 'not in') {
+        if ($operator == 'not in') {
             return $this->builder->whereNotIn($this->field, $this->value, $condition);
         }
 
-        if ($this->operator == 'contains') {
+        if ($operator == 'contains') {
             return $this->builder->where($this->field, 'like', "%{$this->value}%", $condition);
         }
 
-        if ($this->operator == 'has') {
+        if ($operator == 'has') {
             return $this->builder->has($this->field);
         }
 
-        if ($this->operator == 'doesnt have') {
+        if ($operator == 'doesnt have') {
             return $this->builder->doesntHave($this->field);
         }
 
-        return $this->builder->where($this->field, $this->operator, $this->value, $condition);
+        return $this->builder->where($this->field, $operator, $this->value, $condition);
+    }
+
+    /**
+     * Get the operator
+     *
+     * @return mixed|string
+     */
+    protected function getOperator()
+    {
+        if (array_key_exists($this->operator, $this->aliases)) {
+            return $this->aliases[$this->operator];
+        }
+
+        return $this->operator;
     }
 
     /**

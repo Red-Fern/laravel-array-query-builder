@@ -14,7 +14,7 @@ class LaravelArrayQueryBuilderServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/laravelarrayquerybuilder.php' => base_path('config/laravelarrayquerybuilder.php')
+            __DIR__.'/../config/laravelarrayquerybuilder.php' => config_path('laravelarrayquerybuilder.php')
         ], 'config');
     }
 
