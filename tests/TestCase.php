@@ -67,7 +67,7 @@ class TestCase extends TestbenchTestCase
 
         $rawQueryComponents = [];
         foreach ($selectComponents as $component) {
-            if (!is_null($query->$component)) {
+            if (! is_null($query->$component)) {
                 $rawQueryComponents[$component] = $query->$component;
             }
         }
