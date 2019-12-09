@@ -3,6 +3,8 @@
 namespace RedFern\ArrayQueryBuilder\Conditions;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use RedFern\ArrayQueryBuilder\Exceptions\InvalidOperatorException;
 
 class WhereRule
 {
@@ -30,6 +32,28 @@ class WhereRule
      * @var \Illuminate\Config\Repository
      */
     protected $aliases = [];
+
+    /**
+     * @var array
+     */
+    protected $acceptedOperators = [
+        '=',
+        '!=',
+        '>',
+        '>=',
+        '<',
+        '<=',
+        'like',
+        'not like',
+        'null',
+        'not null',
+        'between',
+        'in',
+        'not in',
+        'contains',
+        'has',
+        'doesnt have'
+    ];
 
     /**
      * QueryRule constructor.
@@ -67,57 +91,72 @@ class WhereRule
     public function apply()
     {
         $condition = ($this->index) ? $this->condition : 'and';
-        $operator = $this->getOperator();
 
         // Null value check
-        if ($operator == 'null') {
+        if ($this->operator == 'null') {
             return $this->builder->whereNull($this->field, $condition);
         }
 
         // Add not null check
-        if ($operator == 'not null') {
+        if ($this->operator == 'not null') {
             return $this->builder->whereNotNull($this->field, $condition);
         }
 
-        if ($operator == 'between') {
+        if ($this->operator == 'between') {
             return $this->builder->whereBetween($this->field, $this->value, $condition);
         }
 
-        if ($operator == 'in') {
+        if ($this->operator == 'in') {
             return $this->builder->whereIn($this->field, $this->value, $condition);
         }
 
-        if ($operator == 'not in') {
+        if ($this->operator == 'not in') {
             return $this->builder->whereNotIn($this->field, $this->value, $condition);
         }
 
-        if ($operator == 'contains') {
+        if ($this->operator == 'contains') {
             return $this->builder->where($this->field, 'like', "%{$this->value}%", $condition);
         }
 
-        if ($operator == 'has') {
+        if ($this->operator == 'has') {
             return $this->builder->has($this->field);
         }
 
-        if ($operator == 'doesnt have') {
+        if ($this->operator == 'doesnt have') {
             return $this->builder->doesntHave($this->field);
         }
 
-        return $this->builder->where($this->field, $operator, $this->value, $condition);
+        return $this->builder->where($this->field, $this->operator, $this->value, $condition);
     }
 
     /**
-     * Get the operator
+     * Set the operator
      *
      * @return mixed|string
+     * @throws InvalidOperatorException
      */
-    protected function getOperator()
+    protected function setOperatorValue($value)
     {
-        if (array_key_exists($this->operator, $this->aliases)) {
-            return $this->aliases[$this->operator];
+        if (array_key_exists($value, $this->aliases)) {
+            $value = $this->aliases[$value];
         }
 
-        return $this->operator;
+        if (!$this->validOperator($value)) {
+            throw new InvalidOperatorException("The operator \"{$value}\" is not valid");
+        }
+
+        return $value;
+    }
+
+    /**
+     * Check if operator is in whitelisted acceptedOperators
+     *
+     * @param $operator
+     * @return bool
+     */
+    protected function validOperator($operator)
+    {
+        return in_array($operator, $this->acceptedOperators);
     }
 
     /**
@@ -125,9 +164,17 @@ class WhereRule
      *
      * @param $key
      * @param $value
+     * @return mixed
      */
     protected function setAttribute($key, $value)
     {
+        // Check if a mutator method for given key exists
+        $method = $this->getMutatorMethod($key);
+        if (method_exists($this, $method)) {
+            $this->attributes[$key] = $this->$method($value);
+            return $this;
+        }
+
         $this->attributes[$key] = $value;
     }
 
@@ -139,6 +186,19 @@ class WhereRule
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * Get a custom mutator method name
+     *
+     * @param $key
+     * @return string
+     */
+    public function getMutatorMethod($key)
+    {
+        $attribute = ucfirst(Str::camel($key));
+
+        return "set{$attribute}Value";
     }
 
     /**
