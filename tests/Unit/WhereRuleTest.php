@@ -2,7 +2,9 @@
 
 namespace RedFern\ArrayQueryBuilder\Tests\Unit;
 
+use Illuminate\Support\Facades\Config;
 use RedFern\ArrayQueryBuilder\Conditions\WhereRule;
+use RedFern\ArrayQueryBuilder\Exceptions\InvalidOperatorException;
 use RedFern\ArrayQueryBuilder\Tests\TestCase;
 
 class WhereRuleTest extends TestCase
@@ -170,5 +172,38 @@ class WhereRuleTest extends TestCase
             ->whereDoesntHave('orders');
 
         $this->assertQueryEquals($expected, $rule->apply());
+    }
+
+    /** @test */
+    public function it_replaces_alias_for_field_operator()
+    {
+        config(['laravelarrayquerybuilder.operator_aliases.greaterthan' => '>']);
+
+        $builder = $this->getEloquentBuilder();
+
+        $rule = new WhereRule($builder, [
+            'field'    => 'age',
+            'operator' => 'greaterthan',
+            'value'    => 50,
+        ]);
+
+        $expected = $this->getEloquentBuilder()
+            ->where('age', '>', 50);
+
+        $this->assertQueryEquals($expected, $rule->apply());
+    }
+
+    /** @test */
+    public function it_throws_exception_if_invalid_alias()
+    {
+        $this->expectException(InvalidOperatorException::class);
+
+        $builder = $this->getEloquentBuilder();
+
+        $rule = new WhereRule($builder, [
+            'field'    => 'age',
+            'operator' => 'greaterthan',
+            'value'    => 50,
+        ]);
     }
 }
