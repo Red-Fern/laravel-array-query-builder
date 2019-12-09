@@ -2,8 +2,8 @@
 
 namespace RedFern\ArrayQueryBuilder\Tests\Unit;
 
-use RedFern\ArrayQueryBuilder\Tests\TestCase;
 use RedFern\ArrayQueryBuilder\Conditions\WhereGroup;
+use RedFern\ArrayQueryBuilder\Tests\TestCase;
 
 class WhereGroupTest extends TestCase
 {
@@ -12,18 +12,18 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'like',
-                    'value' => '%adam%'
+                    'value'    => '%adam%',
                 ],
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'like',
-                    'value' => '%liam%'
-                ]
-            ]
+                    'value'    => '%liam%',
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
@@ -40,33 +40,33 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'like',
-                    'value' => '%adam%'
+                    'value'    => '%adam%',
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'age',
+                            'field'    => 'age',
                             'operator' => '>',
-                            'value' => 32
+                            'value'    => 32,
                         ],
                         [
-                            'field' => 'age',
+                            'field'    => 'age',
                             'operator' => '<',
-                            'value' => 54
-                        ]
-                    ]
-                ]
-            ]
+                            'value'    => 54,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->where('name', 'like', '%adam%')
-            ->orWhere(function($q) {
+            ->orWhere(function ($q) {
                 $q->where('age', '>', 32)
                     ->where('age', '<', 54);
             });
@@ -81,23 +81,23 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'and',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'like',
-                    'value' => '%adam%'
+                    'value'    => '%adam%',
                 ],
                 [
-                    'field' => 'orders.order_date',
+                    'field'    => 'orders.order_date',
                     'operator' => '>',
-                    'value' => '2019-01-01 00:00:00'
-                ]
-            ]
+                    'value'    => '2019-01-01 00:00:00',
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->where('name', 'like', '%adam%')
-            ->whereHas('orders', function($q) {
+            ->whereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2019-01-01 00:00:00');
             });
 
@@ -111,29 +111,29 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'and',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => '>',
-                    'value' => 25
+                    'value'    => 25,
                 ],
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => '<',
-                    'value' => 50
+                    'value'    => 50,
                 ],
                 [
-                    'field' => 'orders.order_date',
+                    'field'    => 'orders.order_date',
                     'operator' => '>',
-                    'value' => '2010-01-01 00:00:00'
+                    'value'    => '2010-01-01 00:00:00',
                 ],
-            ]
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->where('age', '>', 25)
             ->where('age', '<', 50)
-            ->whereHas('orders', function($q) {
+            ->whereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2010-01-01 00:00:00');
             });
 
@@ -147,36 +147,36 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'and',
-            'rules' => [
+            'rules'     => [
                 [
                     'condition' => 'or',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'name',
+                            'field'    => 'name',
                             'operator' => '=',
-                            'value' => 'adam'
+                            'value'    => 'adam',
                         ],
                         [
-                            'field' => 'name',
+                            'field'    => 'name',
                             'operator' => '=',
-                            'value' => 'liam'
+                            'value'    => 'liam',
                         ],
-                    ]
+                    ],
                 ],
                 [
-                    'field' => 'orders.order_date',
+                    'field'    => 'orders.order_date',
                     'operator' => '>',
-                    'value' => '2010-01-01 00:00:00'
+                    'value'    => '2010-01-01 00:00:00',
                 ],
-            ]
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
-            ->where(function($q) {
+            ->where(function ($q) {
                 $q->where('name', '=', 'adam')
                     ->orWhere('name', '=', 'liam');
             })
-            ->whereHas('orders', function($q) {
+            ->whereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2010-01-01 00:00:00');
             });
 
@@ -190,40 +190,40 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => 'in',
-                    'value' => [20, 30, 40, 50]
+                    'value'    => [20, 30, 40, 50],
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '>',
-                            'value' => '2010-01-01 00:00:00'
+                            'value'    => '2010-01-01 00:00:00',
                         ],
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '<',
-                            'value' => '2015-01-01 00:00:00'
+                            'value'    => '2015-01-01 00:00:00',
                         ],
                         [
-                            'field' => 'name',
+                            'field'    => 'name',
                             'operator' => '=',
-                            'value' => 'adam'
-                        ]
-                    ]
+                            'value'    => 'adam',
+                        ],
+                    ],
                 ],
 
-            ]
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->whereIn('age', [20, 30, 40, 50])
-            ->orWhere(function($q){
-                $q->whereHas('orders', function($q2){
+            ->orWhere(function ($q) {
+                $q->whereHas('orders', function ($q2) {
                     $q2->where('order_date', '>', '2010-01-01 00:00:00')
                         ->where('order_date', '<', '2015-01-01 00:00:00');
                 })
@@ -247,58 +247,58 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => 'in',
-                    'value' => [20, 30, 40, 50]
+                    'value'    => [20, 30, 40, 50],
                 ],
                 [
-                    'field' => 'name',
-                    'operator' => 'not null'
+                    'field'    => 'name',
+                    'operator' => 'not null',
                 ],
                 [
                     'condition' => 'or',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'email',
+                            'field'    => 'email',
                             'operator' => 'contains',
-                            'value' => 'red-fern.co.uk'
+                            'value'    => 'red-fern.co.uk',
                         ],
                         [
-                            'field' => 'email',
+                            'field'    => 'email',
                             'operator' => 'contains',
-                            'value' => 'hotmail.co.uk'
-                        ]
-                    ]
+                            'value'    => 'hotmail.co.uk',
+                        ],
+                    ],
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '>',
-                            'value' => '2010-01-01 00:00:00'
+                            'value'    => '2010-01-01 00:00:00',
                         ],
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '<',
-                            'value' => '2015-01-01 00:00:00'
+                            'value'    => '2015-01-01 00:00:00',
                         ],
-                    ]
+                    ],
                 ],
 
-            ]
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->whereIn('age', [20, 30, 40, 50])
             ->orWhereNotNull('name')
-            ->orWhere(function($q) {
+            ->orWhere(function ($q) {
                 $q->where('email', 'like', '%red-fern.co.uk%')
                     ->orWhere('email', 'like', '%hotmail.co.uk%');
             })
-            ->orWhereHas('orders', function($q) {
+            ->orWhereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2010-01-01 00:00:00')
                     ->where('order_date', '<', '2015-01-01 00:00:00');
             });
@@ -313,52 +313,52 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'like',
-                    'value' => '%adam%'
+                    'value'    => '%adam%',
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'age',
+                            'field'    => 'age',
                             'operator' => '>',
-                            'value' => 32
+                            'value'    => 32,
                         ],
                         [
-                            'field' => 'age',
+                            'field'    => 'age',
                             'operator' => '<',
-                            'value' => 54
+                            'value'    => 54,
                         ],
                         [
                             'condition' => 'or',
-                            'rules' => [
+                            'rules'     => [
                                 [
-                                    'field' => 'email',
+                                    'field'    => 'email',
                                     'operator' => 'like',
-                                    'value' => '%red-fern.co.uk'
+                                    'value'    => '%red-fern.co.uk',
                                 ],
                                 [
-                                    'field' => 'email',
+                                    'field'    => 'email',
                                     'operator' => 'like',
-                                    'value' => '%hotmail.co.uk'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'value'    => '%hotmail.co.uk',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->where('name', 'like', '%adam%')
-            ->orWhere(function($q){
+            ->orWhere(function ($q) {
                 $q->where('age', '>', 32)
                     ->where('age', '<', 54)
-                    ->where(function($q2){
-                        $q2->where('email', 'like','%red-fern.co.uk')
+                    ->where(function ($q2) {
+                        $q2->where('email', 'like', '%red-fern.co.uk')
                             ->orWhere('email', 'like', '%hotmail.co.uk');
                     });
             });
@@ -373,18 +373,18 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'and',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => 'between',
-                    'value' => [30, 50]
+                    'value'    => [30, 50],
                 ],
                 [
-                    'field' => 'email',
+                    'field'    => 'email',
                     'operator' => 'contains',
-                    'value' => 'red-fern.co.uk'
-                ]
-            ]
+                    'value'    => 'red-fern.co.uk',
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
@@ -401,22 +401,22 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'AND',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'contains',
-                    'value' => 'adam'
+                    'value'    => 'adam',
                 ],
                 [
-                    'field' => 'orders.order_date',
+                    'field'    => 'orders.order_date',
                     'operator' => 'null',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->where('name', 'like', '%adam%')
-            ->whereHas('orders', function($q){
+            ->whereHas('orders', function ($q) {
                 $q->whereNull('order_date');
             });
 
@@ -430,28 +430,28 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'and',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => '>',
-                    'value' => 29
+                    'value'    => 29,
                 ],
                 [
-                    'field' => 'orders.order_date',
+                    'field'    => 'orders.order_date',
                     'operator' => '>',
-                    'value' => '2010-01-01 00:00:00'
+                    'value'    => '2010-01-01 00:00:00',
                 ],
                 [
-                    'field' => 'orders.order_date',
+                    'field'    => 'orders.order_date',
                     'operator' => '<',
-                    'value' => '2010-12-31 23:59:59',
-                ]
-            ]
+                    'value'    => '2010-12-31 23:59:59',
+                ],
+            ],
         ];
 
         $expected = $this->getEloquentBuilder()
             ->where('age', '>', '29')
-            ->whereHas('orders', function($q){
+            ->whereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2010-01-01 00:00:00')
                     ->where('order_date', '<', '2010-12-31 23:59:59');
             });
@@ -466,34 +466,33 @@ class WhereGroupTest extends TestCase
     {
         $rules = [
             'condition' => 'and',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => 'contains',
-                    'value' => 'adam'
+                    'value'    => 'adam',
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '>',
-                            'value' => '2010-01-01 00:00:00'
+                            'value'    => '2010-01-01 00:00:00',
                         ],
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '<',
-                            'value' => '2010-12-31 23:59:59',
-                        ]
-                    ]
-                ]
-            ]
+                            'value'    => '2010-12-31 23:59:59',
+                        ],
+                    ],
+                ],
+            ],
         ];
-
 
         $expected = $this->getEloquentBuilder()
             ->where('name', 'like', '%adam%')
-            ->whereHas('orders', function($q){
+            ->whereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2010-01-01 00:00:00')
                     ->where('order_date', '<', '2010-12-31 23:59:59');
             });

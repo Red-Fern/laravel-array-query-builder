@@ -2,11 +2,6 @@
 
 namespace RedFern\ArrayQueryBuilder\Conditions;
 
-use Illuminate\Support\Str;
-use RedFern\ArrayQueryBuilder\Conditions\RelationGroup;
-use RedFern\ArrayQueryBuilder\Conditions\WhereCollection;
-use RedFern\ArrayQueryBuilder\Conditions\WhereRule;
-
 class WhereGroup
 {
     /**
@@ -45,7 +40,7 @@ class WhereGroup
     }
 
     /**
-     * Apply the where rules
+     * Apply the where rules.
      *
      * @return mixed
      */
@@ -54,7 +49,7 @@ class WhereGroup
         $this->rules
             ->groupFields()
             ->values()
-            ->each(function($collection, $index) {
+            ->each(function ($collection, $index) {
                 $this->applyRules($collection, $index);
             });
 
@@ -62,10 +57,11 @@ class WhereGroup
     }
 
     /**
-     * Apply rules
+     * Apply rules.
      *
      * @param $collection
      * @param $index
+     *
      * @return WhereRule|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|mixed
      */
     protected function applyRules($collection, $index)
@@ -73,6 +69,7 @@ class WhereGroup
         // Check for nested relational groups
         if ($collection->isRelationalGroup()) {
             $group = $collection->first();
+
             return (new RelationGroup($this->builder, $group['rules'], $group['condition'], $this->condition))->apply();
         }
 
@@ -89,14 +86,15 @@ class WhereGroup
     }
 
     /**
-     * Apply nested conditions
+     * Apply nested conditions.
      *
      * @param $collection
+     *
      * @return mixed
      */
     protected function applyNestedRules($collection)
     {
-        return $this->builder->where(function($q) use($collection) {
+        return $this->builder->where(function ($q) use ($collection) {
             return (new self($q, $collection->first(), $this->condition))->apply();
         }, null, null, $this->condition);
     }
