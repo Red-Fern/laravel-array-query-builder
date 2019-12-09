@@ -2,8 +2,8 @@
 
 namespace RedFern\ArrayQueryBuilder\Tests\Unit;
 
-use RedFern\ArrayQueryBuilder\Tests\TestCase;
 use RedFern\ArrayQueryBuilder\Conditions\WhereRule;
+use RedFern\ArrayQueryBuilder\Tests\TestCase;
 
 class WhereRuleTest extends TestCase
 {
@@ -13,9 +13,9 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
+            'field'    => 'age',
             'operator' => '>',
-            'value' => '28'
+            'value'    => '28',
         ]);
 
         $this->assertEquals('age', $rule->field);
@@ -29,9 +29,9 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
+            'field'    => 'age',
             'operator' => '>',
-            'value' => 30
+            'value'    => 30,
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -46,8 +46,8 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
-            'operator' => 'null'
+            'field'    => 'age',
+            'operator' => 'null',
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -62,8 +62,8 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
-            'operator' => 'not null'
+            'field'    => 'age',
+            'operator' => 'not null',
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -78,9 +78,9 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
+            'field'    => 'age',
             'operator' => 'between',
-            'value' => [30, 50]
+            'value'    => [30, 50],
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -95,9 +95,9 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
+            'field'    => 'age',
             'operator' => 'in',
-            'value' => [30, 24]
+            'value'    => [30, 24],
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -112,9 +112,9 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'age',
+            'field'    => 'age',
             'operator' => 'not in',
-            'value' => [30, 48, 24]
+            'value'    => [30, 48, 24],
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -129,9 +129,9 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'name',
+            'field'    => 'name',
             'operator' => 'contains',
-            'value' => 'Redfearn'
+            'value'    => 'Redfearn',
         ]);
 
         $expected = $this->getEloquentBuilder()
@@ -146,7 +146,7 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'orders',
+            'field'    => 'orders',
             'operator' => 'has',
         ]);
 
@@ -162,7 +162,7 @@ class WhereRuleTest extends TestCase
         $builder = $this->getEloquentBuilder();
 
         $rule = new WhereRule($builder, [
-            'field' => 'orders',
+            'field'    => 'orders',
             'operator' => 'doesnt have',
         ]);
 

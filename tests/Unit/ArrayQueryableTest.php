@@ -12,39 +12,39 @@ class ArrayQueryableTest extends TestCase
     {
         $query = TestModel::arrayWheres([
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => '=',
-                    'value' => 'adam'
+                    'value'    => 'adam',
                 ],
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => '>',
-                    'value' => 25
+                    'value'    => 25,
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '>',
-                            'value' => '2019-01-01 00:00:00'
+                            'value'    => '2019-01-01 00:00:00',
                         ],
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '<',
-                            'value' => '2019-05-01 00:00:00'
-                        ]
-                    ]
-                ]
-            ]
+                            'value'    => '2019-05-01 00:00:00',
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $expected = $this->getEloquentBuilder()
                         ->where('name', 'adam')
                         ->orWhere('age', '>', 25)
-                        ->orWhereHas('orders', function($q){
+                        ->orWhereHas('orders', function ($q) {
                             $q->where('order_date', '>', '2019-01-01 00:00:00')
                                 ->where('order_date', '<', '2019-05-01 00:00:00');
                         });
@@ -55,43 +55,43 @@ class ArrayQueryableTest extends TestCase
     /** @test **/
     public function it_applies_where_builder_to_existing_model()
     {
-        $model = new TestModel;
+        $model = new TestModel();
 
         $query = $model->newArrayWheres([
             'condition' => 'or',
-            'rules' => [
+            'rules'     => [
                 [
-                    'field' => 'name',
+                    'field'    => 'name',
                     'operator' => '=',
-                    'value' => 'adam'
+                    'value'    => 'adam',
                 ],
                 [
-                    'field' => 'age',
+                    'field'    => 'age',
                     'operator' => '>',
-                    'value' => 25
+                    'value'    => 25,
                 ],
                 [
                     'condition' => 'and',
-                    'rules' => [
+                    'rules'     => [
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '>',
-                            'value' => '2019-01-01 00:00:00'
+                            'value'    => '2019-01-01 00:00:00',
                         ],
                         [
-                            'field' => 'orders.order_date',
+                            'field'    => 'orders.order_date',
                             'operator' => '<',
-                            'value' => '2019-05-01 00:00:00'
-                        ]
-                    ]
-                ]
-            ]
+                            'value'    => '2019-05-01 00:00:00',
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $expected = $this->getEloquentBuilder()
             ->where('name', 'adam')
             ->orWhere('age', '>', 25)
-            ->orWhereHas('orders', function($q){
+            ->orWhereHas('orders', function ($q) {
                 $q->where('order_date', '>', '2019-01-01 00:00:00')
                     ->where('order_date', '<', '2019-05-01 00:00:00');
             });

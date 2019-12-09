@@ -3,7 +3,6 @@
 namespace RedFern\ArrayQueryBuilder\Conditions;
 
 use Illuminate\Support\Collection;
-use RedFern\ArrayQueryBuilder\Conditions\WhereRule;
 
 class RelationGroup
 {
@@ -32,15 +31,14 @@ class RelationGroup
      */
     protected $relation;
 
-
     /**
      * RelationGroup constructor.
      *
      * @param $builder
      * @param $relation
      * @param array|Collection $rules
-     * @param string $condition
-     * @param string $parentCondition
+     * @param string           $condition
+     * @param string           $parentCondition
      */
     public function __construct($builder, $rules, $condition = 'and', $parentCondition = '')
     {
@@ -51,7 +49,7 @@ class RelationGroup
     }
 
     /**
-     * Build the query
+     * Build the query.
      *
      * @return mixed
      */
@@ -59,36 +57,38 @@ class RelationGroup
     {
         $method = ($this->parentCondition == 'or') ? 'orWhereHas' : 'whereHas';
 
-        return $this->builder->{$method}($this->relation, function($q) {
+        return $this->builder->{$method}($this->relation, function ($q) {
             $this->applyRules($q);
         });
     }
 
     /**
-     * Apply the query rules
+     * Apply the query rules.
      *
      * @param $q
      */
     protected function applyRules($q)
     {
-        foreach($this->rules as $index => $rule) {
+        foreach ($this->rules as $index => $rule) {
             (new WhereRule($q, $rule, $this->condition, $index))->apply();
         }
     }
 
     /**
-     * Remove relation prefix from group fields
+     * Remove relation prefix from group fields.
      *
      * @param Collection|array $groupRules
+     *
      * @return Collection
      */
     public function sanitizeRules($rules)
     {
         $rules = ($rules instanceof Collection) ? $rules : collect($rules);
 
-        $this->relation = preg_replace('/\.([a-z_]*)$/','', $rules->first()['field']);
-        $this->rules = $rules->map(function($c) {
-            $c['field'] = str_replace("{$this->relation}.",'',$c['field']);
+        $this->relation = preg_replace('/\.([a-z_]*)$/', '', $rules->first()['field']);
+        $this->rules = $rules->map(function ($c) {
+            $c['field'] = str_replace("{$this->relation}.", '', $c['field']);
+
             return $c;
         });
     }
