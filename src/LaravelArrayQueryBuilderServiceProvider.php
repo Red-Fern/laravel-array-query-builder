@@ -20,7 +20,7 @@ class LaravelArrayQueryBuilderServiceProvider extends ServiceProvider
         ], 'config');
 
         // Add macros
-        Builder::macro('arrayWheres', function($rules) {
+        Builder::macro('arrayWheres', function ($rules) {
             return (new WhereGroup($this, $rules))->apply();
         });
     }

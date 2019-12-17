@@ -2,7 +2,6 @@
 
 namespace RedFern\ArrayQueryBuilder\Tests\Unit;
 
-use RedFern\ArrayQueryBuilder\Conditions\WhereGroup;
 use RedFern\ArrayQueryBuilder\Tests\TestCase;
 
 class QueryBuilderTest extends TestCase
@@ -54,18 +53,18 @@ class QueryBuilderTest extends TestCase
                             'operator' => 'like',
                             'value'    => '%liam%',
                         ],
-                    ]
+                    ],
                 ],
                 [
                     'field' => 'age',
                     'operator' => '>',
-                    'value' => 25
-                ]
+                    'value' => 25,
+                ],
             ],
         ];
 
         $expected = $this->getEloquentBuilder()
-            ->where(function($q) {
+            ->where(function ($q) {
                 $q->where('name', 'like', '%adam%')
                     ->orWhere('name', 'like', '%liam%');
             })
