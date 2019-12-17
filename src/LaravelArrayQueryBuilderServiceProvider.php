@@ -2,7 +2,9 @@
 
 namespace RedFern\ArrayQueryBuilder;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
+use RedFern\ArrayQueryBuilder\Conditions\WhereGroup;
 
 class LaravelArrayQueryBuilderServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,11 @@ class LaravelArrayQueryBuilderServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/laravelarrayquerybuilder.php' => config_path('laravelarrayquerybuilder.php'),
         ], 'config');
+
+        // Add macros
+        Builder::macro('arrayWheres', function($rules) {
+            return (new WhereGroup($this, $rules))->apply();
+        });
     }
 
     /**
