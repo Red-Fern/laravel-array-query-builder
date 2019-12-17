@@ -13,6 +13,15 @@ use RedFern\ArrayQueryBuilder\Tests\Models\TestModel;
 class TestCase extends TestbenchTestCase
 {
     /**
+     * @param \Illuminate\Foundation\Application $app
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return ['RedFern\ArrayQueryBuilder\LaravelArrayQueryBuilderServiceProvider'];
+    }
+
+    /**
      * Mock a query builder instance.
      *
      * @return QueryBuilder
